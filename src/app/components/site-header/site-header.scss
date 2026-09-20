@@ -1,0 +1,12 @@
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 2rem;
+}
+
+.site-header__logo {
+  display: block;
+  height: 3.5rem;
+  width: auto;
+}

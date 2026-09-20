@@ -1,0 +1,31 @@
+<form class="vote" (ngSubmit)="submit()">
+  <div class="vote__questions">
+    @for (question of survey().questions; track question.id; let questionIndex = $index) {
+      <fieldset class="question" [disabled]="locked()">
+        <legend class="question__title">{{ questionIndex + 1 }}. {{ question.text }}</legend>
+        @if (question.allowMultiple) {
+          <p class="question__hint">More than one answer is possible.</p>
+        }
+        <ul class="options">
+          @for (answer of question.answers; track answer.id; let answerIndex = $index) {
+            <li>
+              <label class="option">
+                <input
+                  [type]="question.allowMultiple ? 'checkbox' : 'radio'"
+                  [name]="question.id"
+                  [checked]="isSelected(question.id, answer.id)"
+                  (change)="choose(question, answer.id)"
+                />
+                <span><strong>{{ toLetter(answerIndex) }}.</strong> {{ answer.text }}</span>
+              </label>
+            </li>
+          }
+        </ul>
+      </fieldset>
+    }
+  </div>
+
+  @if (!locked()) {
+    <button type="submit" class="button vote__submit" [disabled]="!canSubmit()">Complete survey</button>
+  }
+</form>

@@ -1,0 +1,68 @@
+.survey-card {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  background: var(--color-surface);
+  border-top-right-radius: 4rem;
+  transition: transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+  }
+}
+
+.survey-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 1.25rem 1.5rem;
+}
+
+.survey-card__category {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-accent);
+}
+
+.survey-card__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.survey-card__deadline {
+  margin: auto 0 0;
+  align-self: flex-end;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-dark);
+  background: var(--color-accent-soft);
+}
+
+.survey-card--featured {
+  min-height: 20rem;
+  color: var(--color-text-dark);
+  background: var(--color-card-light);
+  border-top-right-radius: 8rem;
+
+  .survey-card__content {
+    padding: 2.5rem 2.75rem;
+  }
+
+  .survey-card__category {
+    color: var(--color-text-dark);
+  }
+
+  .survey-card__title {
+    font-size: 1.8rem;
+  }
+
+  .survey-card__deadline {
+    align-self: flex-start;
+    background: var(--color-accent-pill);
+  }
+}

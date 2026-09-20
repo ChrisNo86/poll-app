@@ -1,0 +1,26 @@
+<section class="results" aria-labelledby="results-title">
+  <h2 id="results-title" class="display-title results__title">
+    Survey results <span class="results__live">LIVE</span>
+  </h2>
+
+  <div aria-live="polite">
+    @for (question of survey().questions; track question.id; let questionIndex = $index) {
+      <article class="result">
+        <h3 class="result__question">{{ questionIndex + 1 }}. {{ question.text }}</h3>
+        <ul class="result__list">
+          @for (answer of question.answers; track answer.id; let answerIndex = $index) {
+            <li class="result__row">
+              <span class="result__letter">{{ toLetter(answerIndex) }}</span>
+              <span class="result__track" aria-hidden="true">
+                <span class="result__bar" [style.width.%]="percentOf(question, answer.id)"></span>
+              </span>
+              <span class="result__percent">
+                <span class="visually-hidden">{{ answer.text }}:</span> {{ percentOf(question, answer.id) }}%
+              </span>
+            </li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+</section>

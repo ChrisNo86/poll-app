@@ -1,0 +1,131 @@
+<div class="backdrop" (click)="close()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+  <header class="dialog__header">
+    <p class="badge">Draft</p>
+    <button type="button" class="dialog__close" aria-label="Close dialog" (click)="close()">✕</button>
+    <h2 id="dialog-title" class="display-title">Create new survey</h2>
+    <p class="dialog__legend"><span class="required-mark" aria-hidden="true">*</span> Required field</p>
+  </header>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="publish()" novalidate>
+    <fieldset class="form__section">
+      <legend class="visually-hidden">Required information</legend>
+
+      <div class="field">
+        <label for="survey-title">Survey name <span class="required-mark" aria-hidden="true">*</span></label>
+        <input id="survey-title" type="text" formControlName="title" required aria-required="true" maxlength="120" />
+        @if (showsError(form.controls.title)) {
+          <p class="field__error" role="alert">Please enter a survey name.</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="survey-category">Choose category <span class="required-mark" aria-hidden="true">*</span></label>
+        <select id="survey-category" formControlName="category" required aria-required="true">
+          <option value="" disabled>Select a category</option>
+          @for (category of categories; track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+        @if (showsError(form.controls.category)) {
+          <p class="field__error" role="alert">Please choose a category.</p>
+        }
+      </div>
+
+      <div formArrayName="questions" class="questions">
+        @for (question of questions.controls; track $index; let questionIndex = $index) {
+          <fieldset class="question" [formGroupName]="questionIndex">
+            <legend class="question__legend">
+              {{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span>
+              @if (questions.length > 1) {
+                <button
+                  type="button"
+                  class="icon-button"
+                  [attr.aria-label]="'Remove question ' + (questionIndex + 1)"
+                  (click)="removeQuestion(questionIndex)"
+                >
+                  🗑
+                </button>
+              }
+            </legend>
+
+            <input
+              type="text"
+              formControlName="text"
+              required
+              aria-required="true"
+              [attr.aria-label]="'Question ' + (questionIndex + 1)"
+              placeholder="Which date would work best for you?"
+            />
+            @if (showsError(question.controls.text)) {
+              <p class="field__error" role="alert">Please enter the question.</p>
+            }
+
+            <div class="answers-header">
+              <span>Answers <span class="required-mark" aria-hidden="true">*</span> (at least 2)</span>
+              <label class="checkbox">
+                <input type="checkbox" formControlName="allowMultiple" />
+                Allow multiple answers.
+              </label>
+            </div>
+
+            <ul class="answers" formArrayName="answers">
+              @for (answer of answersOf(question).controls; track $index; let answerIndex = $index) {
+                <li class="answer">
+                  <label [for]="'answer-' + questionIndex + '-' + answerIndex">{{ toLetter(answerIndex) }}.</label>
+                  <input
+                    [id]="'answer-' + questionIndex + '-' + answerIndex"
+                    type="text"
+                    [formControlName]="answerIndex"
+                    required
+                    aria-required="true"
+                  />
+                  @if (answersOf(question).length > 2) {
+                    <button
+                      type="button"
+                      class="icon-button"
+                      [attr.aria-label]="'Remove answer ' + toLetter(answerIndex)"
+                      (click)="removeAnswer(question, answerIndex)"
+                    >
+                      🗑
+                    </button>
+                  }
+                  @if (showsError(answer)) {
+                    <p class="field__error" role="alert">Please enter an answer.</p>
+                  }
+                </li>
+              }
+            </ul>
+
+            <button type="button" class="link-button" (click)="addAnswer(question)">Add answer ⊕</button>
+          </fieldset>
+        }
+        <button type="button" class="button button--muted" (click)="addQuestion()">Add next question ⊕</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="form__section">
+      <legend class="form__section-title">Optional information</legend>
+
+      <div class="field">
+        <label for="survey-end-date">Set end date <span class="optional">(optional)</span></label>
+        <input id="survey-end-date" type="date" formControlName="endDate" [min]="today" />
+        @if (showsError(form.controls.endDate)) {
+          <p class="field__error" role="alert">The end date must be in the future.</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="survey-description">Describing text <span class="optional">(optional)</span></label>
+        <textarea id="survey-description" formControlName="description" rows="4" maxlength="500"></textarea>
+      </div>
+    </fieldset>
+
+    @if (saveError()) {
+      <p class="field__error" role="alert">{{ saveError() }}</p>
+    }
+
+    <button type="submit" class="button dialog__submit" [disabled]="isSaving()">Publish ✓</button>
+  </form>
+</section>

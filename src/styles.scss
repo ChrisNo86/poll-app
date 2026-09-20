@@ -1,0 +1,101 @@
+:root {
+  --color-bg: #352639;
+  --color-surface: #423546;
+  --color-card-light: #f9f5fc;
+  --color-bg-light: #fefeff;
+  --color-panel-light: #f3eff5;
+  --color-field: #fcfbfd;
+  --color-text: #fff;
+  --color-text-dark: #211227;
+  --color-accent: #ffb76f;
+  --color-accent-strong: #ee9033;
+  --color-accent-soft: #fdd0a4;
+  --color-accent-pill: #fee9d4;
+  --color-track: #ededed;
+  --color-error: #ff8f8f;
+  --font-body: 'Mulish', system-ui, sans-serif;
+  /* Placeholder: replace with the display font used in the Figma design. */
+  --font-display: 'Chewy', 'Mulish', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+.page {
+  width: min(100% - 2rem, 75rem);
+  margin-inline: auto;
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--color-accent);
+}
+
+h1.display-title {
+  margin: 0;
+  font-size: 4.5rem;
+  line-height: 1.1;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--color-accent-soft);
+  border: 0;
+  border-radius: 0.6rem;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.button--muted {
+  color: var(--color-text);
+  background: #7a5c52;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.9rem;
+  margin: 0 0 0.75rem;
+  color: var(--color-text-dark);
+  background: var(--color-accent);
+  border-top-right-radius: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  h1.display-title {
+    font-size: 3rem;
+  }
+}

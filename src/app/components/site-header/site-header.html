@@ -1,0 +1,12 @@
+<header class="site-header">
+  <a routerLink="/" aria-label="Poll App, back to the survey overview">
+    <img
+      class="site-header__logo"
+      [src]="variant() === 'light' ? 'images/logo-light.png' : 'images/logo-dark.png'"
+      alt="Poll App"
+      width="140"
+      height="70"
+    />
+  </a>
+  <ng-content />
+</header>

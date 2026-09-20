@@ -1,0 +1,51 @@
+<div class="page detail">
+  <app-site-header variant="dark">
+    <a routerLink="/" class="button">Back to surveys</a>
+  </app-site-header>
+
+  <main>
+    @if (survey(); as currentSurvey) {
+      <div class="detail__layout">
+        <article class="panel">
+          <p class="badge">{{ isPast() ? 'Closed' : 'Published' }}</p>
+          <div class="panel__meta">
+            @if (currentSurvey.endDate) {
+              <p>{{ isPast() ? 'Ended on' : 'Ends on' }} <time>{{ formatDate(currentSurvey.endDate) }}</time></p>
+            } @else {
+              <p>No deadline</p>
+            }
+            <p>Category: {{ currentSurvey.category }}</p>
+          </div>
+          <h1 class="display-title panel__title">{{ currentSurvey.title }}</h1>
+          @if (currentSurvey.description) {
+            <p class="panel__description">{{ currentSurvey.description }}</p>
+          }
+
+          @if (isPast()) {
+            <p class="notice" role="status">This survey has ended. You can view the results, but not vote anymore.</p>
+          } @else if (hasVoted()) {
+            <p class="notice" role="status">Thank you! Your vote has been counted.</p>
+          }
+          @if (submitError()) {
+            <p class="notice notice--error" role="alert">{{ submitError() }}</p>
+          }
+
+          <app-survey-vote
+            [survey]="currentSurvey"
+            [locked]="isLocked()"
+            [isSubmitting]="isSubmitting()"
+            (submitted)="vote($event)"
+          />
+        </article>
+
+        <aside>
+          <app-survey-results [survey]="currentSurvey" />
+        </aside>
+      </div>
+    } @else if (survey() === null) {
+      <p class="notice">This survey does not exist.</p>
+    } @else {
+      <p class="notice" role="status">Loading survey…</p>
+    }
+  </main>
+</div>
