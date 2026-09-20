@@ -1,4 +1,4 @@
-<form class="vote" (ngSubmit)="submit()">
+<form class="vote" (submit)="submit($event)">
   <div class="vote__questions">
     @for (question of survey().questions; track question.id; let questionIndex = $index) {
       <fieldset class="question" [disabled]="locked()">

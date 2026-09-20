@@ -12,7 +12,8 @@
             <li class="result__row">
               <span class="result__letter">{{ toLetter(answerIndex) }}</span>
               <span class="result__track" aria-hidden="true">
-                <span class="result__bar" [style.width.%]="percentOf(question, answer.id)"></span>
+                <span class="result__bar" [style.width.%]="percentOf(question, answer.id)"
+                  [style.min-width.px]="percentOf(question, answer.id) > 0 ? 6 : 0"></span>
               </span>
               <span class="result__percent">
                 <span class="visually-hidden">{{ answer.text }}:</span> {{ percentOf(question, answer.id) }}%

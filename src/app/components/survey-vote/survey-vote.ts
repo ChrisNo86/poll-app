@@ -35,7 +35,8 @@ export class SurveyVote {
     this.selection.update((selection) => ({ ...selection, [question.id]: next }));
   }
 
-  protected submit(): void {
+  protected submit(event: Event): void {
+    event.preventDefault();
     if (this.canSubmit()) {
       this.submitted.emit(this.selection());
     }
