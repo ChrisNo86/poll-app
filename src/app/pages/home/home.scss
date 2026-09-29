@@ -1,13 +1,13 @@
 .hero {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 3fr 2fr;
   align-items: center;
   gap: 2rem;
   padding-block: 3rem 5rem;
 }
 
 .hero__lead {
-  max-width: 34rem;
+  max-width: 41.625rem;
   margin: 1.5rem 0 2rem;
   font-size: 1.5rem;
   font-weight: 600;
