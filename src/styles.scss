@@ -64,6 +64,12 @@ h1.display-title {
   background: var(--color-accent-soft);
   border: 0;
   border-radius: 0.6rem;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: var(--color-accent);
+  }
 
   &:disabled {
     cursor: not-allowed;
@@ -74,6 +80,36 @@ h1.display-title {
 .button--muted {
   color: var(--color-text);
   background: var(--color-button-muted);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: #8a6660;
+  }
+}
+
+/* CTA buttons reveal a "+" on hover, growing smoothly, matching the Figma prototype interaction. */
+.button--cta {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button__icon {
+  display: inline-block;
+  max-width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-width 0.2s ease,
+    margin-left 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.button--cta:hover .button__icon,
+.button--cta:focus-visible .button__icon {
+  max-width: 1.5rem;
+  margin-left: 0.4rem;
+  opacity: 1;
 }
 
 .badge {

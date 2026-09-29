@@ -71,9 +71,20 @@
   background: var(--color-accent-pill);
   border: 0;
   border-radius: 1rem;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-accent-soft);
+  }
 
   &[aria-pressed='true'] {
     background: var(--color-accent);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-accent);
+    }
   }
 }
 
@@ -86,9 +97,16 @@
     padding: 0.35rem 0.75rem;
     font: inherit;
     color: var(--color-text-dark);
+    cursor: pointer;
     background: var(--color-accent-pill);
     border: 0;
     border-radius: 0.5rem;
+    transition: background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-accent-soft);
+    }
   }
 }
 

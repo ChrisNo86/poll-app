@@ -5,8 +5,47 @@
   padding-block: 2rem;
 }
 
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.85;
+  }
+}
+
 .site-header__logo {
-  display: block;
-  height: 3.5rem;
-  width: auto;
+  flex: none;
+  width: 3.1rem;
+  height: auto;
+}
+
+.site-header__bubble {
+  fill: var(--color-accent);
+}
+
+.site-header__dot,
+.site-header__bar {
+  fill: #bf8168;
+}
+
+.site-header__wordmark {
+  font-size: 1.15rem;
+  line-height: 1.05;
+  color: var(--color-accent);
+}
+
+.site-header--dark {
+  .site-header__bubble {
+    fill: var(--color-bg);
+  }
+
+  .site-header__dot,
+  .site-header__bar {
+    fill: var(--color-accent-soft);
+  }
 }

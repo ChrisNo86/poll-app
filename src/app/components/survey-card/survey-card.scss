@@ -16,6 +16,13 @@
   }
 }
 
+.survey-card--featured {
+  &:hover,
+  &:focus-visible {
+    background: #f4e9fb;
+  }
+}
+
 .survey-card__content {
   display: flex;
   flex-direction: column;

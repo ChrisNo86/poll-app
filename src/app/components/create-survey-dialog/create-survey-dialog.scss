@@ -47,6 +47,12 @@
   background: var(--color-button-muted);
   border: 0;
   border-radius: 0.6rem;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #8a6660;
+  }
 }
 
 .dialog__legend {
@@ -224,6 +230,16 @@ textarea {
   cursor: pointer;
   background: transparent;
   border: 0;
+  border-radius: 0.3rem;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    color: var(--color-text-dark);
+    background: var(--color-accent-soft);
+  }
 
   &:disabled {
     cursor: not-allowed;
@@ -240,6 +256,12 @@ textarea {
   background: none;
   border: 0;
   border-bottom: 1px solid currentcolor;
+  transition: color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
 }
 
 .form__addquestion {
@@ -281,6 +303,12 @@ textarea {
   cursor: pointer;
   background: none;
   border: 0;
+  transition: opacity 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.6;
+  }
 }
 
 @media (min-width: 900px) {
