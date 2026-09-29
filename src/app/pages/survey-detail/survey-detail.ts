@@ -1,19 +1,19 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 
 import { SiteHeader } from '../../components/site-header/site-header';
 import { SurveyResults } from '../../components/survey-results/survey-results';
 import { SurveyVote } from '../../components/survey-vote/survey-vote';
 import { Selection } from '../../models/survey.model';
+import { SurveyDialogStore } from '../../services/survey-dialog.store';
 import { SurveyService } from '../../services/survey.service';
 import { formatDate, isPastSurvey } from '../../utils/survey-date.util';
 
 /** Detail view: voting form on the left, live results on the right. */
 @Component({
   selector: 'app-survey-detail',
-  imports: [RouterLink, SiteHeader, SurveyVote, SurveyResults],
+  imports: [SiteHeader, SurveyVote, SurveyResults],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
@@ -22,6 +22,7 @@ export class SurveyDetail {
 
   private readonly surveyService = inject(SurveyService);
   private readonly hasVotedNow = signal<boolean>(false);
+  protected readonly dialogStore = inject(SurveyDialogStore);
 
   protected readonly formatDate = formatDate;
   protected readonly isSubmitting = signal<boolean>(false);

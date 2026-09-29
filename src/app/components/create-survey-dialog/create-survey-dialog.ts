@@ -1,7 +1,8 @@
 import { Component, ElementRef, afterNextRender, inject, output, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { MIN_ANSWERS_PER_QUESTION, SURVEY_CATEGORIES } from '../../models/survey.constants';
+import { MAX_ANSWERS_PER_QUESTION, MIN_ANSWERS_PER_QUESTION, SURVEY_CATEGORIES } from '../../models/survey.constants';
 import { NewSurvey, Question } from '../../models/survey.model';
 import { SurveyService } from '../../services/survey.service';
 import { notBlank, notInPast, parseDateInput, showsError } from '../../utils/form-validators.util';
@@ -27,10 +28,14 @@ export class CreateSurveyDialog {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly surveyService = inject(SurveyService);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly router = inject(Router);
 
   protected readonly categories = SURVEY_CATEGORIES;
+  protected readonly maxAnswers = MAX_ANSWERS_PER_QUESTION;
   protected readonly isSaving = signal<boolean>(false);
   protected readonly saveError = signal<string>('');
+  /** Id of the just-published survey; its presence shows the confirmation overlay. */
+  protected readonly publishedSurveyId = signal<string>('');
   protected readonly today = new Date().toISOString().slice(0, 10);
   protected readonly showsError = showsError;
   protected readonly toLetter = toLetter;
@@ -69,8 +74,18 @@ export class CreateSurveyDialog {
     }
   }
 
+  /** Question 1 can never be removed (a survey always needs at least one question) — its delete icon clears its fields instead. */
+  protected clearQuestion(index: number): void {
+    const question = this.questions.at(index);
+    question.controls.text.reset('');
+    question.controls.allowMultiple.reset(false);
+    question.controls.answers.controls.forEach((answer) => answer.reset(''));
+  }
+
   protected addAnswer(question: QuestionGroup): void {
-    this.answersOf(question).push(this.formBuilder.control('', [notBlank]));
+    if (this.answersOf(question).length < this.maxAnswers) {
+      this.answersOf(question).push(this.formBuilder.control('', [notBlank]));
+    }
   }
 
   protected removeAnswer(question: QuestionGroup, index: number): void {
@@ -79,7 +94,7 @@ export class CreateSurveyDialog {
     }
   }
 
-  /** Validates the form and stores the survey. */
+  /** Validates the form, stores the survey, then shows the publish confirmation overlay. */
   protected async publish(): Promise<void> {
     this.form.markAllAsTouched();
     if (this.form.invalid || this.isSaving()) {
@@ -87,11 +102,20 @@ export class CreateSurveyDialog {
     }
     this.isSaving.set(true);
     try {
-      await this.surveyService.createSurvey(this.buildSurvey());
-      this.close();
+      const id = await this.surveyService.createSurvey(this.buildSurvey());
+      this.publishedSurveyId.set(id);
     } catch {
       this.saveError.set('The survey could not be saved. Please try again.');
       this.isSaving.set(false);
+    }
+  }
+
+  /** Closes the publish confirmation overlay and takes the user to the new survey. */
+  protected closeConfirmation(): void {
+    const id = this.publishedSurveyId();
+    this.close();
+    if (id) {
+      void this.router.navigate(['/survey', id]);
     }
   }
 

@@ -5,10 +5,13 @@
   text-decoration: none;
   background: var(--color-surface);
   border-top-right-radius: 4rem;
-  transition: transform 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
 
   &:hover,
   &:focus-visible {
+    background: #4f4055;
     transform: translateY(-3px);
   }
 }

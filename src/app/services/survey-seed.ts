@@ -14,7 +14,7 @@ const SEED_DEFINITIONS: SeedDefinition[] = [
   {
     id: 'seed-team-event',
     title: 'Let’s Plan the Next Team Event Together',
-    category: 'Team activities',
+    category: 'Team Activities',
     description: 'Share your preferences and ideas to help us plan better team experiences.',
     daysFromNow: 1,
     questions: [
@@ -42,7 +42,7 @@ const SEED_DEFINITIONS: SeedDefinition[] = [
   {
     id: 'seed-learning',
     title: 'Which training topics interest you?',
-    category: 'Education',
+    category: 'Education & Learning',
     description: 'Help us choose the next training budget priorities.',
     daysFromNow: 12,
     questions: [['Pick your topics', true, ['Security', 'Cloud', 'Soft skills', 'Leadership']]],
@@ -50,7 +50,7 @@ const SEED_DEFINITIONS: SeedDefinition[] = [
   {
     id: 'seed-open-end',
     title: 'Office snack wishlist',
-    category: 'Other',
+    category: 'Lifestyle & Preferences',
     description: 'No deadline, vote anytime.',
     daysFromNow: null,
     questions: [['Favorite snack?', false, ['Fruit', 'Chocolate', 'Nuts']]],
@@ -58,7 +58,7 @@ const SEED_DEFINITIONS: SeedDefinition[] = [
   {
     id: 'seed-past-offsite',
     title: 'Summer offsite feedback',
-    category: 'Team activities',
+    category: 'Team Activities',
     description: 'This survey has ended. Results are read-only.',
     daysFromNow: -10,
     questions: [['How was the offsite?', false, ['Great', 'Okay', 'Not good']]],

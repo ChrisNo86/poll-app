@@ -43,6 +43,9 @@
     width: 1.3rem;
     height: 1.3rem;
     margin-top: 0.15rem;
+  }
+
+  input[type='radio'] {
     accent-color: var(--color-accent-strong);
   }
 }

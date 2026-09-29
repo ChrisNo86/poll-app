@@ -2,17 +2,19 @@
 
 <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
   <header class="dialog__header">
-    <p class="badge">Draft</p>
-    <button type="button" class="dialog__close" aria-label="Close dialog" (click)="close()">✕</button>
+    <p class="badge badge--draft">Draft</p>
+    <button type="button" class="dialog__cancel" (click)="close()">
+      <span class="dialog__cancel-label">Cancel</span>
+      <span aria-hidden="true">✕</span>
+      <span class="visually-hidden">Close dialog</span>
+    </button>
     <h2 id="dialog-title" class="display-title">Create new survey</h2>
     <p class="dialog__legend"><span class="required-mark" aria-hidden="true">*</span> Required field</p>
   </header>
 
   <form class="form" [formGroup]="form" (ngSubmit)="publish()" novalidate>
-    <fieldset class="form__section">
-      <legend class="visually-hidden">Required information</legend>
-
-      <div class="field">
+    <div class="form__panel">
+      <div class="field form__name">
         <label for="survey-title">Survey name <span class="required-mark" aria-hidden="true">*</span></label>
         <input id="survey-title" type="text" formControlName="title" required aria-required="true" maxlength="120" />
         @if (showsError(form.controls.title)) {
@@ -20,34 +22,52 @@
         }
       </div>
 
-      <div class="field">
-        <label for="survey-category">Choose category <span class="required-mark" aria-hidden="true">*</span></label>
-        <select id="survey-category" formControlName="category" required aria-required="true">
-          <option value="" disabled>Select a category</option>
-          @for (category of categories; track category) {
-            <option [value]="category">{{ category }}</option>
+      <div class="form__subrow">
+        <div class="field field--inline form__category">
+          <label for="survey-category">Choose category <span class="required-mark" aria-hidden="true">*</span></label>
+          <select id="survey-category" class="plain-select" formControlName="category" required aria-required="true">
+            <option value="" disabled>Select a category</option>
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+          @if (showsError(form.controls.category)) {
+            <p class="field__error" role="alert">Please choose a category.</p>
           }
-        </select>
-        @if (showsError(form.controls.category)) {
-          <p class="field__error" role="alert">Please choose a category.</p>
-        }
+        </div>
+
+        <div class="field form__enddate">
+          <label for="survey-end-date">Set end date <span class="optional">(optional)</span></label>
+          <input id="survey-end-date" type="date" formControlName="endDate" [min]="today" />
+          @if (showsError(form.controls.endDate)) {
+            <p class="field__error" role="alert">The end date must be in the future.</p>
+          }
+        </div>
       </div>
 
-      <div formArrayName="questions" class="questions">
+      <div class="field form__description">
+        <label for="survey-description">Describing text <span class="optional">(optional)</span></label>
+        <textarea id="survey-description" formControlName="description" rows="6" maxlength="500"></textarea>
+      </div>
+
+      <div formArrayName="questions" class="questions form__questions">
         @for (question of questions.controls; track $index; let questionIndex = $index) {
           <fieldset class="question" [formGroupName]="questionIndex">
             <legend class="question__legend">
               {{ questionIndex + 1 }}. Question <span class="required-mark" aria-hidden="true">*</span>
-              @if (questions.length > 1) {
-                <button
-                  type="button"
-                  class="icon-button"
-                  [attr.aria-label]="'Remove question ' + (questionIndex + 1)"
-                  (click)="removeQuestion(questionIndex)"
-                >
-                  🗑
-                </button>
-              }
+              <button
+                type="button"
+                class="icon-button"
+                [attr.aria-label]="questionIndex === 0 ? 'Clear question 1' : 'Remove question ' + (questionIndex + 1)"
+                (click)="questionIndex === 0 ? clearQuestion(0) : removeQuestion(questionIndex)"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M9 3a1 1 0 0 0-1 1v1H4.5a1 1 0 0 0 0 2H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9Zm1 2h4V5h-4v0Zm-3 2h10v13H7V7Zm3 2a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Z"
+                  />
+                </svg>
+              </button>
             </legend>
 
             <input
@@ -81,16 +101,20 @@
                     required
                     aria-required="true"
                   />
-                  @if (answersOf(question).length > 2) {
-                    <button
-                      type="button"
-                      class="icon-button"
-                      [attr.aria-label]="'Remove answer ' + toLetter(answerIndex)"
-                      (click)="removeAnswer(question, answerIndex)"
-                    >
-                      🗑
-                    </button>
-                  }
+                  <button
+                    type="button"
+                    class="icon-button"
+                    [disabled]="answersOf(question).length <= 2"
+                    [attr.aria-label]="'Remove answer ' + toLetter(answerIndex)"
+                    (click)="removeAnswer(question, answerIndex)"
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                      <path
+                        fill="currentColor"
+                        d="M9 3a1 1 0 0 0-1 1v1H4.5a1 1 0 0 0 0 2H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9Zm1 2h4V5h-4v0Zm-3 2h10v13H7V7Zm3 2a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Z"
+                      />
+                    </svg>
+                  </button>
                   @if (showsError(answer)) {
                     <p class="field__error" role="alert">Please enter an answer.</p>
                   }
@@ -98,29 +122,20 @@
               }
             </ul>
 
-            <button type="button" class="link-button" (click)="addAnswer(question)">Add answer ⊕</button>
+            @if (answersOf(question).length < maxAnswers) {
+              <div class="answers-footer">
+                <button type="button" class="link-button" (click)="addAnswer(question)">Add answer ⊕</button>
+                <p class="hint">You can add up to 6 answer fields.</p>
+              </div>
+            }
           </fieldset>
         }
-        <button type="button" class="button button--muted" (click)="addQuestion()">Add next question ⊕</button>
-      </div>
-    </fieldset>
-
-    <fieldset class="form__section">
-      <legend class="form__section-title">Optional information</legend>
-
-      <div class="field">
-        <label for="survey-end-date">Set end date <span class="optional">(optional)</span></label>
-        <input id="survey-end-date" type="date" formControlName="endDate" [min]="today" />
-        @if (showsError(form.controls.endDate)) {
-          <p class="field__error" role="alert">The end date must be in the future.</p>
-        }
       </div>
 
-      <div class="field">
-        <label for="survey-description">Describing text <span class="optional">(optional)</span></label>
-        <textarea id="survey-description" formControlName="description" rows="4" maxlength="500"></textarea>
-      </div>
-    </fieldset>
+      <button type="button" class="button button--muted form__addquestion" (click)="addQuestion()">
+        Add next question ⊕
+      </button>
+    </div>
 
     @if (saveError()) {
       <p class="field__error" role="alert">{{ saveError() }}</p>
@@ -128,4 +143,11 @@
 
     <button type="submit" class="button dialog__submit" [disabled]="isSaving()">Publish ✓</button>
   </form>
+
+  @if (publishedSurveyId()) {
+    <div class="confirmation" role="alertdialog" aria-labelledby="confirmation-title">
+      <button type="button" class="confirmation__close" aria-label="Close" (click)="closeConfirmation()">✕</button>
+      <p id="confirmation-title" class="display-title confirmation__title">Your survey is now published!</p>
+    </div>
+  }
 </section>

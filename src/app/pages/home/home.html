@@ -9,7 +9,7 @@
           Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your
           audience, and turn feedback into action.
         </p>
-        <button type="button" class="button" (click)="openDialog()">New survey</button>
+        <button type="button" class="button" (click)="dialogStore.open()">New survey</button>
       </div>
       <img
         class="hero__image"
@@ -49,9 +49,7 @@
             <span>Sort by categories</span>
             <select [value]="selectedCategory()" (change)="selectCategory($any($event.target).value)">
               @for (category of categories; track category) {
-                <option [value]="category" [selected]="category === selectedCategory()">
-                  {{ category === allCategories ? 'All' : category }}
-                </option>
+                <option [value]="category" [selected]="category === selectedCategory()">{{ category }}</option>
               }
             </select>
           </label>
@@ -69,8 +67,4 @@
       </section>
     </section>
   </main>
-
-  @if (isDialogOpen()) {
-    <app-create-survey-dialog (closed)="closeDialog()" />
-  }
 </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { CreateSurveyDialog } from '../../components/create-survey-dialog/create-survey-dialog';
 import { SiteHeader } from '../../components/site-header/site-header';
 import { SurveyCard } from '../../components/survey-card/survey-card';
 import {
@@ -11,6 +10,7 @@ import {
   SURVEY_CATEGORIES,
 } from '../../models/survey.constants';
 import { Survey } from '../../models/survey.model';
+import { SurveyDialogStore } from '../../services/survey-dialog.store';
 import { SurveyService } from '../../services/survey.service';
 import { endsWithinDays, isPastSurvey, sortByEndDate } from '../../utils/survey-date.util';
 
@@ -19,17 +19,16 @@ type SurveyTab = 'active' | 'past';
 /** Home screen: hero, ending-soon surveys and the filterable survey list. */
 @Component({
   selector: 'app-home',
-  imports: [SiteHeader, SurveyCard, CreateSurveyDialog],
+  imports: [SiteHeader, SurveyCard],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
   private readonly surveyService = inject(SurveyService);
+  protected readonly dialogStore = inject(SurveyDialogStore);
 
   protected readonly categories: readonly string[] = [ALL_CATEGORIES, ...SURVEY_CATEGORIES];
-  protected readonly allCategories = ALL_CATEGORIES;
   protected readonly tab = signal<SurveyTab>('active');
-  protected readonly isDialogOpen = signal<boolean>(false);
   private readonly categoryByTab = signal<Record<SurveyTab, string>>({
     active: ALL_CATEGORIES,
     past: ALL_CATEGORIES,
@@ -65,13 +64,5 @@ export class Home implements OnInit {
 
   protected selectCategory(category: string): void {
     this.categoryByTab.update((current) => ({ ...current, [this.tab()]: category }));
-  }
-
-  protected openDialog(): void {
-    this.isDialogOpen.set(true);
-  }
-
-  protected closeDialog(): void {
-    this.isDialogOpen.set(false);
   }
 }

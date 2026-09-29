@@ -108,8 +108,24 @@
     max-width: 18rem;
   }
 
-  .card-grid--featured,
   .card-grid--list {
     grid-template-columns: 1fr;
+  }
+
+  .card-grid--featured {
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    grid-template-columns: none;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card-grid--featured li {
+    scroll-snap-align: start;
   }
 }

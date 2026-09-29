@@ -17,7 +17,7 @@
 
 .dialog {
   position: relative;
-  width: min(100%, 42rem);
+  width: min(100%, 56rem);
   padding: 2rem;
   background: var(--color-bg);
   border-top-right-radius: 6rem;
@@ -32,18 +32,21 @@
   }
 }
 
-.dialog__close {
+.dialog__cancel {
   position: absolute;
   top: 0;
   right: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  font: inherit;
+  font-weight: 700;
   color: var(--color-text);
   cursor: pointer;
-  background: #6b4f4a;
+  background: var(--color-button-muted);
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
 }
 
 .dialog__legend {
@@ -54,24 +57,25 @@
 .form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
 }
 
-.form__section {
+.form__panel {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  width: 100%;
   padding: 1.5rem;
   margin: 0;
   background: var(--color-surface);
-  border: 0;
   border-top-right-radius: 4rem;
 }
 
-.form__section-title {
-  padding: 0;
-  font-size: 1.2rem;
-  font-weight: 700;
+.form__subrow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .field,
@@ -82,6 +86,17 @@
   padding: 0;
   margin: 0;
   border: 0;
+}
+
+.field--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+
+  .field__error {
+    flex-basis: 100%;
+  }
 }
 
 label,
@@ -113,6 +128,23 @@ textarea {
   &.ng-invalid.ng-touched {
     border-color: var(--color-error);
   }
+}
+
+.form__description textarea {
+  height: 100%;
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.plain-select {
+  width: auto;
+  padding: 0.1rem 1.5rem 0.1rem 0;
+  font: inherit;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
 }
 
 .required-mark {
@@ -165,6 +197,20 @@ textarea {
   }
 }
 
+.answers-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
 .questions {
   display: flex;
   flex-direction: column;
@@ -172,18 +218,22 @@ textarea {
 }
 
 .icon-button {
-  padding: 0.2rem 0.4rem;
-  font-size: 1.1rem;
+  display: inline-flex;
+  padding: 0.2rem;
   color: var(--color-text);
   cursor: pointer;
   background: transparent;
   border: 0;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
 }
 
 .link-button {
-  align-self: flex-start;
   padding: 0;
-  margin-top: 0.75rem;
+  margin: 0;
   font: inherit;
   color: var(--color-text);
   cursor: pointer;
@@ -192,10 +242,95 @@ textarea {
   border-bottom: 1px solid currentcolor;
 }
 
+.form__addquestion {
+  align-self: center;
+}
+
 .dialog__submit {
   align-self: center;
 }
 
-.questions > .button {
-  align-self: center;
+.confirmation {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--color-text-dark);
+  background: var(--color-accent-soft);
+  border-top-right-radius: 4rem;
+  box-shadow: 0 1rem 2.5rem rgb(15 8 20 / 45%);
+}
+
+.confirmation__title {
+  max-width: 26rem;
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-text-dark);
+}
+
+.confirmation__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+@media (min-width: 900px) {
+  .form__panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+    row-gap: 1.5rem;
+    grid-template-areas:
+      'name name'
+      'subrow description'
+      'questions description'
+      'questions addquestion';
+  }
+
+  .form__name {
+    grid-area: name;
+  }
+
+  .form__subrow {
+    grid-area: subrow;
+    flex-direction: row;
+  }
+
+  .form__enddate {
+    order: -1;
+  }
+
+  .form__description {
+    grid-area: description;
+  }
+
+  .form__questions {
+    grid-area: questions;
+  }
+
+  .form__addquestion {
+    grid-area: addquestion;
+    align-self: start;
+    justify-self: start;
+    margin-top: 0;
+  }
+
+  .dialog__submit {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 600px) {
+  .dialog__cancel-label {
+    display: none;
+  }
 }
