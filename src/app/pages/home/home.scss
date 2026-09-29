@@ -9,8 +9,9 @@
 .hero__lead {
   max-width: 34rem;
   margin: 1.5rem 0 2rem;
-  font-size: 1.4rem;
-  line-height: 1.4;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .hero__illustration {
@@ -28,48 +29,37 @@
   height: 100%;
 }
 
-/* Speech bubble and checkmark badge exported directly from Figma (with real alpha
-   transparency) as separate layers on top of the static illustration, matching exactly
-   which two elements actually grow on hover in the Figma prototype — the question mark,
-   star and the phone's own checkmark are baked into the base illustration and stay put.
-   Growth amount, direction and timing measured directly against the live Figma
-   prototype (Present mode): the speech bubble grows much more than the checkmark, and
-   each grows away from its anchored corner rather than from its center. */
-.hero__badge {
-  position: absolute;
-  width: auto;
-  height: auto;
-  pointer-events: none;
-  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+/* The Figma prototype's hover interaction on this illustration is a plain cross-fade
+   ("Auflösen"/dissolve, 250ms, ease-in-out) between two fully-rendered variants of the
+   artwork — not a per-badge transform. In the hover variant all four decorations (speech
+   bubble, question mark, star, checkmark) are bigger, each exported directly from Figma,
+   so we replicate it the same way: two full illustrations stacked, cross-fading.
+   Both layers animate opacity (base fades out as hover fades in) — a one-way fade-in over
+   a static base leaves the small base-state badges visible as a "ghost" through the
+   transparent edges of the larger hover badges, which Figma's real dissolve does not show. */
+.hero__image--base,
+.hero__image--hover {
+  transition: opacity 0.25s ease-in-out;
 }
 
-.hero__badge--speech {
-  top: 23.1%;
-  left: 18.1%;
-  width: 25%;
-  transform-origin: 85% 80%;
+.hero__image--hover {
+  opacity: 0;
 }
 
-.hero__badge--check {
-  top: 61.43%;
-  left: 65.95%;
-  width: 19.05%;
-  transform-origin: 40% 60%;
+.hero__illustration:hover .hero__image--hover,
+.hero__illustration:focus-within .hero__image--hover {
+  opacity: 1;
 }
 
-.hero__illustration:hover .hero__badge--speech,
-.hero__illustration:focus-within .hero__badge--speech {
-  transform: scale(1.45);
-}
-
-.hero__illustration:hover .hero__badge--check,
-.hero__illustration:focus-within .hero__badge--check {
-  transform: scale(1.18);
+.hero__illustration:hover .hero__image--base,
+.hero__illustration:focus-within .hero__image--base {
+  opacity: 0;
 }
 
 .surveys__title {
   margin: 0 0 3rem;
-  font-size: 3rem;
+  font-size: 4.5rem;
+  line-height: 1;
   text-align: center;
 }
 
@@ -141,18 +131,24 @@
   gap: 0.75rem;
 
   select {
-    padding: 0.35rem 0.75rem;
+    padding: 0.35rem 2rem 0.35rem 0.9rem;
     font: inherit;
-    color: var(--color-text-dark);
+    color: var(--color-text);
     cursor: pointer;
-    background: var(--color-accent-pill);
+    appearance: none;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.7rem;
     border: 0;
     border-radius: 0.5rem;
     transition: background-color 0.15s ease;
 
     &:hover,
     &:focus-visible {
-      background: var(--color-accent-soft);
+      background-color: rgb(255 255 255 / 8%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffb770' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
   }
 }
@@ -171,6 +167,10 @@
 
   .hero__illustration {
     max-width: 18rem;
+  }
+
+  .surveys__title {
+    font-size: 2.5rem;
   }
 
   .card-grid--list {

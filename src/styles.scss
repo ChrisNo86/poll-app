@@ -49,14 +49,15 @@ body {
 
 h1.display-title {
   margin: 0;
-  font-size: 4.5rem;
-  line-height: 1.1;
+  font-size: 6.25rem;
+  line-height: 0.89;
 }
 
 .button {
   display: inline-block;
   padding: 0.6rem 1.4rem;
   font: inherit;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-dark);
   text-decoration: none;
@@ -181,5 +182,6 @@ textarea {
 @media (max-width: 900px) {
   h1.display-title {
     font-size: 3rem;
+    line-height: 1.1;
   }
 }

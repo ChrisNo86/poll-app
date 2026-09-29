@@ -33,14 +33,15 @@
 
 .survey-card__category {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: var(--color-accent);
 }
 
 .survey-card__title {
   margin: 0;
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   line-height: 1.25;
 }
 
@@ -48,7 +49,8 @@
   margin: auto 0 0;
   align-self: flex-end;
   padding: 0.1rem 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-text-dark);
   background: var(--color-accent-soft);
 }
@@ -63,12 +65,8 @@
     padding: 2.5rem 2.75rem;
   }
 
-  .survey-card__category {
-    color: var(--color-text-dark);
-  }
-
   .survey-card__title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .survey-card__deadline {
