@@ -31,31 +31,40 @@
 /* Speech bubble and checkmark badge exported directly from Figma (with real alpha
    transparency) as separate layers on top of the static illustration, matching exactly
    which two elements actually grow on hover in the Figma prototype — the question mark,
-   star and the phone's own checkmark are baked into the base illustration and stay put. */
+   star and the phone's own checkmark are baked into the base illustration and stay put.
+   Growth amount, direction and timing measured directly against the live Figma
+   prototype (Present mode): the speech bubble grows much more than the checkmark, and
+   each grows away from its anchored corner rather than from its center. */
 .hero__badge {
   position: absolute;
   width: auto;
   height: auto;
   pointer-events: none;
-  transition: transform 0.25s ease;
-  transform-origin: center;
-}
-
-.hero__illustration:hover .hero__badge,
-.hero__illustration:focus-within .hero__badge {
-  transform: scale(1.15);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .hero__badge--speech {
   top: 23.1%;
   left: 18.1%;
   width: 25%;
+  transform-origin: 85% 80%;
 }
 
 .hero__badge--check {
   top: 61.43%;
   left: 65.95%;
   width: 19.05%;
+  transform-origin: 40% 60%;
+}
+
+.hero__illustration:hover .hero__badge--speech,
+.hero__illustration:focus-within .hero__badge--speech {
+  transform: scale(1.45);
+}
+
+.hero__illustration:hover .hero__badge--check,
+.hero__illustration:focus-within .hero__badge--check {
+  transform: scale(1.18);
 }
 
 .surveys__title {
