@@ -29,14 +29,6 @@
   height: 100%;
 }
 
-/* The Figma prototype's hover interaction on this illustration is a plain cross-fade
-   ("Auflösen"/dissolve, 250ms, ease-in-out) between two fully-rendered variants of the
-   artwork — not a per-badge transform. In the hover variant all four decorations (speech
-   bubble, question mark, star, checkmark) are bigger, each exported directly from Figma,
-   so we replicate it the same way: two full illustrations stacked, cross-fading.
-   Both layers animate opacity (base fades out as hover fades in) — a one-way fade-in over
-   a static base leaves the small base-state badges visible as a "ghost" through the
-   transparent edges of the larger hover badges, which Figma's real dissolve does not show. */
 .hero__image--base,
 .hero__image--hover {
   transition: opacity 0.25s ease-in-out;
