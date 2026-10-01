@@ -7,6 +7,7 @@
 
 .site-header__brand {
   display: flex;
+  align-items: center;
   gap: 0.4375rem;
   text-decoration: none;
   transition: opacity 0.15s ease;
@@ -49,5 +50,9 @@
   .site-header__bar {
     fill: var(--color-accent-soft);
     fill-opacity: 1;
+  }
+
+  .site-header__wordmark {
+    color: var(--color-bg);
   }
 }

@@ -35,7 +35,7 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
-  color: var(--color-accent);
+  color: var(--color-accent-soft);
 }
 
 .survey-card__title {
@@ -65,12 +65,16 @@
     padding: 2.5rem 2.75rem;
   }
 
+  .survey-card__category {
+    color: var(--color-accent);
+  }
+
   .survey-card__title {
     font-size: 1.5rem;
   }
 
   .survey-card__deadline {
     align-self: flex-start;
-    background: var(--color-accent-pill);
+    background: var(--color-accent-soft);
   }
 }

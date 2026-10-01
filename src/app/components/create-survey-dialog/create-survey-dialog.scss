@@ -44,14 +44,14 @@
   font-weight: 700;
   color: var(--color-text);
   cursor: pointer;
-  background: var(--color-button-muted);
+  background: rgb(255 183 112 / 30%);
   border: 0;
   border-radius: 0.6rem;
   transition: background-color 0.15s ease;
 
   &:hover,
   &:focus-visible {
-    background: #8a6660;
+    background: rgb(250 245 254 / 20%);
   }
 }
 
@@ -92,6 +92,26 @@
   padding: 0;
   margin: 0;
   border: 0;
+}
+
+.field__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  input,
+  textarea {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &.field__row--top {
+    align-items: flex-start;
+
+    .icon-button {
+      margin-top: 0.6rem;
+    }
+  }
 }
 
 .field--inline {

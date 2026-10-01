@@ -16,7 +16,17 @@
     <div class="form__panel">
       <div class="field form__name">
         <label for="survey-title">Survey name <span class="required-mark" aria-hidden="true">*</span></label>
-        <input id="survey-title" type="text" formControlName="title" required aria-required="true" maxlength="120" />
+        <div class="field__row">
+          <input id="survey-title" type="text" formControlName="title" required aria-required="true" maxlength="120" />
+          <button type="button" class="icon-button" aria-label="Clear survey name" (click)="clearField(form.controls.title)">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M9 3a1 1 0 0 0-1 1v1H4.5a1 1 0 0 0 0 2H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9Zm1 2h4V5h-4v0Zm-3 2h10v13H7V7Zm3 2a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Z"
+              />
+            </svg>
+          </button>
+        </div>
         @if (showsError(form.controls.title)) {
           <p class="field__error" role="alert">Please enter a survey name.</p>
         }
@@ -38,7 +48,17 @@
 
         <div class="field form__enddate">
           <label for="survey-end-date">Set end date <span class="optional">(optional)</span></label>
-          <input id="survey-end-date" type="date" formControlName="endDate" [min]="today" />
+          <div class="field__row">
+            <input id="survey-end-date" type="date" formControlName="endDate" [min]="today" />
+            <button type="button" class="icon-button" aria-label="Clear end date" (click)="clearField(form.controls.endDate)">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M9 3a1 1 0 0 0-1 1v1H4.5a1 1 0 0 0 0 2H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9Zm1 2h4V5h-4v0Zm-3 2h10v13H7V7Zm3 2a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Z"
+                />
+              </svg>
+            </button>
+          </div>
           @if (showsError(form.controls.endDate)) {
             <p class="field__error" role="alert">The end date must be in the future.</p>
           }
@@ -47,7 +67,17 @@
 
       <div class="field form__description">
         <label for="survey-description">Describing text <span class="optional">(optional)</span></label>
-        <textarea id="survey-description" formControlName="description" rows="6" maxlength="500"></textarea>
+        <div class="field__row field__row--top">
+          <textarea id="survey-description" formControlName="description" rows="6" maxlength="500"></textarea>
+          <button type="button" class="icon-button" aria-label="Clear description" (click)="clearField(form.controls.description)">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M9 3a1 1 0 0 0-1 1v1H4.5a1 1 0 0 0 0 2H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9Zm1 2h4V5h-4v0Zm-3 2h10v13H7V7Zm3 2a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v7a1 1 0 1 0 2 0v-7a1 1 0 0 0-1-1Z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div formArrayName="questions" class="questions form__questions">

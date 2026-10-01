@@ -56,8 +56,7 @@
 
 .question:not(:disabled) .option:hover,
 .question:not(:disabled) .option:focus-within {
-  color: var(--color-text-dark);
-  background-color: var(--color-accent-pill);
+  background-color: var(--color-accent-soft);
 }
 
 .question:disabled .option {

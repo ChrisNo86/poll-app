@@ -13,7 +13,6 @@
   --color-accent-pill: #fee9d4;
   --color-track: #ededed;
   --color-error: #ff8f8f;
-  --color-button-muted: #7b5a54;
   --font-body: 'Mulish', system-ui, sans-serif;
   --font-display: 'Nerko One', 'Mulish', sans-serif;
 }
@@ -80,11 +79,11 @@ h1.display-title {
 
 .button--muted {
   color: var(--color-text);
-  background: var(--color-button-muted);
+  background: rgb(255 183 112 / 30%);
 
   &:hover:not(:disabled),
   &:focus-visible:not(:disabled) {
-    background: #8a6660;
+    background: rgb(250 245 254 / 20%);
   }
 }
 
@@ -123,7 +122,7 @@ h1.display-title {
 }
 
 .badge--draft {
-  background: var(--color-accent-soft);
+  background: var(--color-accent-pill);
 }
 
 /* Custom checkbox: outlined square when empty, filled with a checkmark when checked (per Figma "Check box" component). */
@@ -151,8 +150,8 @@ input[type='checkbox'] {
   }
 
   &:checked {
-    background: var(--color-accent-soft);
-    border-color: var(--color-accent-soft);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   &:checked::after {
@@ -165,7 +164,7 @@ input[type='date'],
 select,
 textarea {
   &:focus-visible {
-    background: var(--color-accent-soft);
+    background: var(--color-accent-pill);
     outline: none;
   }
 }

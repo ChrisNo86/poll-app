@@ -82,6 +82,11 @@ export class CreateSurveyDialog {
     question.controls.answers.controls.forEach((answer) => answer.reset(''));
   }
 
+  /** Clears a single top-level field (per the Figma delete icons next to name/end date/description). */
+  protected clearField(control: FormControl<string>): void {
+    control.reset('');
+  }
+
   protected addAnswer(question: QuestionGroup): void {
     if (this.answersOf(question).length < this.maxAnswers) {
       this.answersOf(question).push(this.formBuilder.control('', [notBlank]));

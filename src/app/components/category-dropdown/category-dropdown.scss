@@ -3,6 +3,11 @@
   display: inline-block;
 }
 
+/* Exact colors pulled from the Figma "Drop down & menu" export: the closed trigger is a
+   translucent white-on-dark overlay (#D9D9D9 at 12% opacity) with a white chevron that
+   turns accent-orange while open; the open panel itself is a plain white card with
+   dark-navy (--color-bg) text — not a dark panel, despite how it looked on the dark
+   canvas in Figma's own UI chrome. */
 .dropdown__trigger {
   display: flex;
   align-items: center;
@@ -11,14 +16,14 @@
   font: inherit;
   color: var(--color-text);
   cursor: pointer;
-  background: var(--color-surface);
+  background: rgb(217 217 217 / 12%);
   border: 0;
   border-radius: 0.6rem;
   transition: background-color 0.15s ease;
 
   &:hover,
   &:focus-visible {
-    background-color: rgb(255 255 255 / 8%);
+    background-color: rgb(217 217 217 / 20%);
   }
 }
 
@@ -26,7 +31,7 @@
   width: 0.7rem;
   height: 0.5rem;
   background-color: currentcolor;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.15s ease;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
     no-repeat center / contain;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
@@ -34,6 +39,7 @@
 }
 
 .dropdown__trigger--open .dropdown__chevron {
+  background-color: var(--color-accent);
   transform: rotate(180deg);
 }
 
@@ -50,7 +56,7 @@
   padding: 0.6rem;
   margin: 0;
   list-style: none;
-  background: var(--color-surface);
+  background: var(--color-card-light);
   border-radius: 0.75rem;
   box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 25%);
 }
@@ -61,7 +67,7 @@
   padding: 0.5rem 0.9rem;
   font: inherit;
   text-align: left;
-  color: var(--color-text);
+  color: var(--color-bg);
   cursor: pointer;
   background: transparent;
   border: 0;
@@ -70,12 +76,11 @@
 
   &:hover,
   &:focus-visible {
-    color: var(--color-text-dark);
-    background: var(--color-accent-pill);
+    background: var(--color-panel-light);
   }
 }
 
 .dropdown__option--selected {
-  color: var(--color-text-dark);
-  background: var(--color-accent-pill);
+  color: var(--color-accent-strong);
+  font-weight: 700;
 }
