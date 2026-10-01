@@ -36,7 +36,11 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
+  padding: 0.35rem 0.6rem;
+  margin-inline: -0.6rem;
   cursor: pointer;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
 
   input {
     flex: none;
@@ -48,6 +52,12 @@
   input[type='radio'] {
     accent-color: var(--color-accent-strong);
   }
+}
+
+.question:not(:disabled) .option:hover,
+.question:not(:disabled) .option:focus-within {
+  color: var(--color-text-dark);
+  background-color: var(--color-accent-pill);
 }
 
 .question:disabled .option {
