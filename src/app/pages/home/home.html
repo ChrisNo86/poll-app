@@ -57,14 +57,11 @@
               Past survey
             </button>
           </div>
-          <label class="category-filter">
-            <span>Sort by categories</span>
-            <select [value]="selectedCategory()" (change)="selectCategory($any($event.target).value)">
-              @for (category of categories; track category) {
-                <option [value]="category" [selected]="category === selectedCategory()">{{ category }}</option>
-              }
-            </select>
-          </label>
+          <app-category-dropdown
+            [categories]="categories"
+            [selected]="selectedCategory()"
+            (categorySelected)="selectCategory($event)"
+          />
         </div>
 
         @if (visibleSurveys().length > 0) {

@@ -1,9 +1,19 @@
 .hero {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  /* The heading is forced onto exactly 2 lines (see the <br> in home.html, matching
+     Figma's "Collect Feedback," / "Unlock Ideas" split). A fr-based column can shrink
+     narrower than the heading's actual rendered width (font metrics differ slightly
+     from Figma's own text engine), which would wrap "Collect Feedback," onto a 3rd
+     line. max-content sizes the column to fit the nowrap heading exactly, at any
+     viewport width, instead of guessing a fixed px/fr value. */
+  grid-template-columns: max-content minmax(0, 1fr);
   align-items: center;
   gap: 2rem;
   padding-block: 3rem 5rem;
+}
+
+#hero-title {
+  white-space: nowrap;
 }
 
 .hero__lead {
@@ -29,6 +39,14 @@
   height: 100%;
 }
 
+/* The Figma prototype's hover interaction on this illustration is a plain cross-fade
+   ("Auflösen"/dissolve, 250ms, ease-in-out) between two fully-rendered variants of the
+   artwork — not a per-badge transform. In the hover variant all four decorations (speech
+   bubble, question mark, star, checkmark) are bigger, each exported directly from Figma,
+   so we replicate it the same way: two full illustrations stacked, cross-fading.
+   Both layers animate opacity (base fades out as hover fades in) — a one-way fade-in over
+   a static base leaves the small base-state badges visible as a "ghost" through the
+   transparent edges of the larger hover badges, which Figma's real dissolve does not show. */
 .hero__image--base,
 .hero__image--hover {
   transition: opacity 0.25s ease-in-out;
@@ -117,44 +135,20 @@
   }
 }
 
-.category-filter {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  select {
-    padding: 0.35rem 2rem 0.35rem 0.9rem;
-    font: inherit;
-    color: var(--color-text);
-    cursor: pointer;
-    appearance: none;
-    background-color: transparent;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 0.7rem;
-    border: 0;
-    border-radius: 0.5rem;
-    transition: background-color 0.15s ease;
-
-    &:hover,
-    &:focus-visible {
-      background-color: rgb(255 255 255 / 8%);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffb770' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    }
-  }
-}
-
 .empty-state {
   padding: 2rem 0;
   text-align: center;
   opacity: 0.8;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .hero {
     grid-template-columns: 1fr;
     padding-block: 1rem 3rem;
+  }
+
+  #hero-title {
+    white-space: normal;
   }
 
   .hero__illustration {

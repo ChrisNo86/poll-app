@@ -1,25 +1,21 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+import { CategoryDropdown } from '../../components/category-dropdown/category-dropdown';
 import { SiteHeader } from '../../components/site-header/site-header';
 import { SurveyCard } from '../../components/survey-card/survey-card';
-import {
-  ALL_CATEGORIES,
-  ENDING_SOON_DAYS,
-  ENDING_SOON_MAX_ITEMS,
-  SURVEY_CATEGORIES,
-} from '../../models/survey.constants';
+import { ALL_CATEGORIES, ENDING_SOON_MAX_ITEMS, SURVEY_CATEGORIES } from '../../models/survey.constants';
 import { Survey } from '../../models/survey.model';
 import { SurveyDialogStore } from '../../services/survey-dialog.store';
 import { SurveyService } from '../../services/survey.service';
-import { endsWithinDays, isPastSurvey, sortByEndDate } from '../../utils/survey-date.util';
+import { isPastSurvey, sortByEndDate } from '../../utils/survey-date.util';
 
 type SurveyTab = 'active' | 'past';
 
 /** Home screen: hero, ending-soon surveys and the filterable survey list. */
 @Component({
   selector: 'app-home',
-  imports: [SiteHeader, SurveyCard],
+  imports: [SiteHeader, SurveyCard, CategoryDropdown],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -41,10 +37,17 @@ export class Home implements OnInit {
   protected readonly pastSurveys = computed<Survey[]>(() =>
     sortByEndDate(this.surveys().filter((survey) => isPastSurvey(survey))).reverse(),
   );
+  /**
+   * The highlight strip always shows the soonest-ending active surveys (up to
+   * ENDING_SOON_MAX_ITEMS), not only ones inside a fixed day window — Figma's "Ending
+   * soon" section is a fixed 3-card highlight, not something that should collapse to
+   * fewer cards just because nothing happens to end within the next few days.
+   */
   protected readonly endingSoon = computed<Survey[]>(() =>
-    this.activeSurveys()
-      .filter((survey) => endsWithinDays(survey, ENDING_SOON_DAYS))
-      .slice(0, ENDING_SOON_MAX_ITEMS),
+    sortByEndDate(this.activeSurveys().filter((survey) => survey.endDate !== null)).slice(
+      0,
+      ENDING_SOON_MAX_ITEMS,
+    ),
   );
   protected readonly selectedCategory = computed<string>(() => this.categoryByTab()[this.tab()]);
   protected readonly visibleSurveys = computed<Survey[]>(() => {

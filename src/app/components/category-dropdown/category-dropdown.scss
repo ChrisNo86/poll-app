@@ -1,0 +1,81 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  color: var(--color-text);
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 0;
+  border-radius: 0.6rem;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgb(255 255 255 / 8%);
+  }
+}
+
+.dropdown__chevron {
+  width: 0.7rem;
+  height: 0.5rem;
+  background-color: currentcolor;
+  transition: transform 0.15s ease;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+}
+
+.dropdown__trigger--open .dropdown__chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown__panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: max-content;
+  min-width: 100%;
+  padding: 0.6rem;
+  margin: 0;
+  list-style: none;
+  background: var(--color-surface);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 25%);
+}
+
+.dropdown__option {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-text-dark);
+    background: var(--color-accent-pill);
+  }
+}
+
+.dropdown__option--selected {
+  color: var(--color-text-dark);
+  background: var(--color-accent-pill);
+}
